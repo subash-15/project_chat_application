@@ -1,0 +1,28 @@
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    restart: always
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+    networks:
+      - app-net
+
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    restart: always
+    depends_on:
+      - server
+    ports:
+      - "80:80"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
